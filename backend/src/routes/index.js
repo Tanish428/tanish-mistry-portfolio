@@ -15,6 +15,12 @@ import {
   publicSkillCategoryRouter,
   publicSkillRouter,
 } from '../modules/skills/skills.routes.js';
+import {
+  adminExperienceRouter,
+  adminEducationRouter,
+  publicExperienceRouter,
+  publicEducationRouter,
+} from '../modules/experience-education/experience-education.routes.js';
 
 const router = Router();
 
@@ -38,5 +44,11 @@ router.use('/admin/skill-categories', adminSkillCategoryRouter);
 router.use('/admin/skills', adminSkillRouter);
 router.use('/portfolio/skill-categories', publicSkillCategoryRouter);
 router.use('/portfolio/skills', publicSkillRouter);
+
+// Experience & education routes
+router.use('/admin/experience', adminExperienceRouter);
+router.use('/admin/education', adminEducationRouter);
+router.use('/portfolio/experience', publicExperienceRouter);
+router.use('/portfolio/education', publicEducationRouter);
 
 export default router;
