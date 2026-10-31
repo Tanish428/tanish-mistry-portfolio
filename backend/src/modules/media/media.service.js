@@ -6,6 +6,14 @@ import config from '../../config/env.js';
 import { uploadStreamToCloudinary, destroyCloudinaryAsset } from '../../config/cloudinary.js';
 
 /**
+ * Cloudinary operation adapter to facilitate mocking and test isolation
+ */
+export const cloudinaryAdapter = {
+  uploadStream: uploadStreamToCloudinary,
+  destroyAsset: destroyCloudinaryAsset,
+};
+
+/**
  * Formats a Media document into a consistent client response
  */
 export const formatMedia = (doc) => ({
@@ -31,25 +39,34 @@ export const uploadImage = async (file, body = {}) => {
   const randomSuffix = crypto.randomBytes(6).toString('hex');
   const generatedId = `img_${Date.now()}_${randomSuffix}`;
 
-  const uploadResult = await uploadStreamToCloudinary(file.buffer, {
+  const uploadResult = await cloudinaryAdapter.uploadStream(file.buffer, {
     public_id: generatedId,
     format: file.detectedFormat,
   });
 
-  const media = await Media.create({
-    publicId: uploadResult.public_id,
-    secureUrl: uploadResult.secure_url,
-    resourceType: 'image',
-    format: uploadResult.format || file.detectedFormat,
-    bytes: uploadResult.bytes || file.size,
-    width: uploadResult.width || null,
-    height: uploadResult.height || null,
-    folder: config.cloudinaryFolder,
-    originalFilename: file.originalname ? file.originalname.slice(0, 255) : null,
-    altText: body.altText ? body.altText.trim() : null,
-  });
+  try {
+    const media = await Media.create({
+      publicId: uploadResult.public_id,
+      secureUrl: uploadResult.secure_url,
+      resourceType: 'image',
+      format: uploadResult.format || file.detectedFormat,
+      bytes: uploadResult.bytes || file.size,
+      width: uploadResult.width || null,
+      height: uploadResult.height || null,
+      folder: config.cloudinaryFolder,
+      originalFilename: file.originalname ? file.originalname.slice(0, 255) : null,
+      altText: body.altText ? body.altText.trim() : null,
+    });
 
-  return formatMedia(media);
+    return formatMedia(media);
+  } catch (dbErr) {
+    try {
+      await cloudinaryAdapter.destroyAsset(uploadResult.public_id);
+    } catch (cleanupErr) {
+      console.error('Failed to cleanup Cloudinary asset after MongoDB write failure:', cleanupErr.message);
+    }
+    throw dbErr;
+  }
 };
 
 /**
@@ -133,7 +150,7 @@ export const deleteMedia = async (id) => {
   }
 
   // 3. Destroy Cloudinary asset
-  const cloudResult = await destroyCloudinaryAsset(media.publicId);
+  const cloudResult = await cloudinaryAdapter.destroyAsset(media.publicId);
   // 'ok' or 'not found' (already removed from provider)
   if (cloudResult.result !== 'ok' && cloudResult.result !== 'not found') {
     const error = new Error('Failed to delete asset from Cloudinary');
@@ -141,8 +158,26 @@ export const deleteMedia = async (id) => {
     throw error;
   }
 
-  // 4. Remove record from MongoDB
-  await Media.findByIdAndDelete(id);
+  // 4. Remove record from MongoDB with bounded retry for transient failures
+  let deletedDoc = null;
+  let dbDeleteError = null;
+
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      deletedDoc = await Media.findByIdAndDelete(id);
+      break;
+    } catch (err) {
+      dbDeleteError = err;
+      if (attempt < 3) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      }
+    }
+  }
+
+  if (dbDeleteError) {
+    console.error(`MongoDB deletion failed for media ID ${id} after Cloudinary asset destruction:`, dbDeleteError.message);
+    throw dbDeleteError;
+  }
 
   return true;
 };

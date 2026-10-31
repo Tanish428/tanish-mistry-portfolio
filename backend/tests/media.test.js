@@ -8,6 +8,7 @@ import Media from '../src/modules/media/media.model.js';
 import Profile from '../src/modules/profile/profile.model.js';
 import Project from '../src/modules/projects/project.model.js';
 import * as cloudinaryConfig from '../src/config/cloudinary.js';
+import { uploadImage, deleteMedia, cloudinaryAdapter } from '../src/modules/media/media.service.js';
 
 const TEST_DB_NAME = 'tanish_portfolio_media_test';
 
@@ -567,6 +568,391 @@ describe('Cloudinary Media Management Test Suite', () => {
       assert.equal(data.success, true);
       assert.equal(data.data.project.thumbnailUrl, directUrl);
       assert.equal(data.data.project.thumbnailMediaId, null);
+    });
+
+    test('PATCH /api/v1/admin/profile with profileImageMediaId: null clears both profileImageMediaId and profileImageUrl', async () => {
+      // First ensure profile has a media image
+      await fetch(`${baseUrl}/api/v1/admin/profile`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `${authCookie}; ${csrfCookie}`,
+          'x-csrf-token': csrfToken,
+        },
+        body: JSON.stringify({ profileImageMediaId: sampleMediaId }),
+      });
+
+      // Now clear via profileImageMediaId: null
+      const res = await fetch(`${baseUrl}/api/v1/admin/profile`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `${authCookie}; ${csrfCookie}`,
+          'x-csrf-token': csrfToken,
+        },
+        body: JSON.stringify({ profileImageMediaId: null }),
+      });
+
+      assert.equal(res.status, 200);
+      const data = await res.json();
+      assert.equal(data.success, true);
+      assert.equal(data.data.profile.profileImageMediaId, null);
+      assert.equal(data.data.profile.profileImageUrl, null);
+
+      const dbProfile = await Profile.findOne({ singletonKey: 'primary' });
+      assert.equal(dbProfile.profileImageMediaId, null);
+      assert.equal(dbProfile.profileImageUrl, null);
+    });
+
+    test('PATCH /api/v1/admin/profile with profileImageUrl: null clears both profileImageUrl and profileImageMediaId', async () => {
+      // First ensure profile has a media image
+      await fetch(`${baseUrl}/api/v1/admin/profile`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `${authCookie}; ${csrfCookie}`,
+          'x-csrf-token': csrfToken,
+        },
+        body: JSON.stringify({ profileImageMediaId: sampleMediaId }),
+      });
+
+      // Now clear via profileImageUrl: null
+      const res = await fetch(`${baseUrl}/api/v1/admin/profile`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `${authCookie}; ${csrfCookie}`,
+          'x-csrf-token': csrfToken,
+        },
+        body: JSON.stringify({ profileImageUrl: null }),
+      });
+
+      assert.equal(res.status, 200);
+      const data = await res.json();
+      assert.equal(data.success, true);
+      assert.equal(data.data.profile.profileImageUrl, null);
+      assert.equal(data.data.profile.profileImageMediaId, null);
+
+      const dbProfile = await Profile.findOne({ singletonKey: 'primary' });
+      assert.equal(dbProfile.profileImageUrl, null);
+      assert.equal(dbProfile.profileImageMediaId, null);
+    });
+
+    test('PATCH /api/v1/admin/profile with external profileImageUrl updates URL and clears media reference', async () => {
+      // First ensure profile has a media image
+      await fetch(`${baseUrl}/api/v1/admin/profile`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `${authCookie}; ${csrfCookie}`,
+          'x-csrf-token': csrfToken,
+        },
+        body: JSON.stringify({ profileImageMediaId: sampleMediaId }),
+      });
+
+      const externalUrl = 'https://example.com/external-avatar.jpg';
+      const res = await fetch(`${baseUrl}/api/v1/admin/profile`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `${authCookie}; ${csrfCookie}`,
+          'x-csrf-token': csrfToken,
+        },
+        body: JSON.stringify({ profileImageUrl: externalUrl }),
+      });
+
+      assert.equal(res.status, 200);
+      const data = await res.json();
+      assert.equal(data.success, true);
+      assert.equal(data.data.profile.profileImageUrl, externalUrl);
+      assert.equal(data.data.profile.profileImageMediaId, null);
+
+      const dbProfile = await Profile.findOne({ singletonKey: 'primary' });
+      assert.equal(dbProfile.profileImageUrl, externalUrl);
+      assert.equal(dbProfile.profileImageMediaId, null);
+    });
+
+    test('PATCH /api/v1/admin/projects/:id with thumbnailMediaId: null clears both thumbnailMediaId and thumbnailUrl', async () => {
+      // Create project with thumbnailMediaId
+      const proj = await Project.create({
+        title: 'Project For Clearing Media Test',
+        slug: 'project-clearing-media-test',
+        shortDescription: 'Testing thumbnailMediaId null clearing.',
+        description: 'Comprehensive test for thumbnailMediaId null clearing.',
+        technologies: ['Node.js'],
+        category: 'backend',
+        thumbnailMediaId: sampleMediaId,
+        thumbnailUrl: sampleMediaUrl,
+      });
+
+      const res = await fetch(`${baseUrl}/api/v1/admin/projects/${proj._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `${authCookie}; ${csrfCookie}`,
+          'x-csrf-token': csrfToken,
+        },
+        body: JSON.stringify({ thumbnailMediaId: null }),
+      });
+
+      assert.equal(res.status, 200);
+      const data = await res.json();
+      assert.equal(data.success, true);
+      assert.equal(data.data.project.thumbnailMediaId, null);
+      assert.equal(data.data.project.thumbnailUrl, null);
+
+      const dbProj = await Project.findById(proj._id);
+      assert.equal(dbProj.thumbnailMediaId, null);
+      assert.equal(dbProj.thumbnailUrl, null);
+    });
+
+    test('PATCH /api/v1/admin/projects/:id with thumbnailUrl: null clears both thumbnailUrl and thumbnailMediaId', async () => {
+      // Create project with thumbnailMediaId
+      const proj = await Project.create({
+        title: 'Project For Clearing URL Test',
+        slug: 'project-clearing-url-test',
+        shortDescription: 'Testing thumbnailUrl null clearing.',
+        description: 'Comprehensive test for thumbnailUrl null clearing.',
+        technologies: ['Node.js'],
+        category: 'backend',
+        thumbnailMediaId: sampleMediaId,
+        thumbnailUrl: sampleMediaUrl,
+      });
+
+      const res = await fetch(`${baseUrl}/api/v1/admin/projects/${proj._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `${authCookie}; ${csrfCookie}`,
+          'x-csrf-token': csrfToken,
+        },
+        body: JSON.stringify({ thumbnailUrl: null }),
+      });
+
+      assert.equal(res.status, 200);
+      const data = await res.json();
+      assert.equal(data.success, true);
+      assert.equal(data.data.project.thumbnailUrl, null);
+      assert.equal(data.data.project.thumbnailMediaId, null);
+
+      const dbProj = await Project.findById(proj._id);
+      assert.equal(dbProj.thumbnailUrl, null);
+      assert.equal(dbProj.thumbnailMediaId, null);
+    });
+
+    test('PATCH /api/v1/admin/projects/:id with external thumbnailUrl updates URL and clears thumbnailMediaId', async () => {
+      // Create project with thumbnailMediaId
+      const proj = await Project.create({
+        title: 'Project For External URL Update Test',
+        slug: 'project-external-url-test',
+        shortDescription: 'Testing external URL update.',
+        description: 'Comprehensive test for external URL update.',
+        technologies: ['Node.js'],
+        category: 'backend',
+        thumbnailMediaId: sampleMediaId,
+        thumbnailUrl: sampleMediaUrl,
+      });
+
+      const externalUrl = 'https://example.com/external-new-thumb.jpg';
+      const res = await fetch(`${baseUrl}/api/v1/admin/projects/${proj._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `${authCookie}; ${csrfCookie}`,
+          'x-csrf-token': csrfToken,
+        },
+        body: JSON.stringify({ thumbnailUrl: externalUrl }),
+      });
+
+      assert.equal(res.status, 200);
+      const data = await res.json();
+      assert.equal(data.success, true);
+      assert.equal(data.data.project.thumbnailUrl, externalUrl);
+      assert.equal(data.data.project.thumbnailMediaId, null);
+
+      const dbProj = await Project.findById(proj._id);
+      assert.equal(dbProj.thumbnailUrl, externalUrl);
+      assert.equal(dbProj.thumbnailMediaId, null);
+    });
+  });
+
+  // ==========================================
+  // 6. RESILIENCE & FAILURE RECOVERY TESTS
+  // ==========================================
+  describe('6. Resilience & Failure Recovery Tests', () => {
+    test('uploadImage attempts compensating Cloudinary destruction on MongoDB failure and preserves DB error', async () => {
+      const originalUploadStream = cloudinaryAdapter.uploadStream;
+      const originalDestroyAsset = cloudinaryAdapter.destroyAsset;
+      const originalCreate = Media.create;
+
+      const destroyedAssets = [];
+
+      cloudinaryAdapter.uploadStream = async (buf, opts) => ({
+        public_id: opts.public_id || 'test_compensate_id',
+        secure_url: 'https://res.cloudinary.com/test/image/upload/v1/test_compensate_id.png',
+        format: 'png',
+        bytes: 1024,
+      });
+
+      cloudinaryAdapter.destroyAsset = async (publicId) => {
+        destroyedAssets.push(publicId);
+        return { result: 'ok' };
+      };
+
+      Media.create = async () => {
+        const error = new Error('Simulated MongoDB connection failure during Media.create');
+        error.code = 'SIMULATED_DB_ERROR';
+        throw error;
+      };
+
+      try {
+        const dummyFile = {
+          buffer: validPngBuffer,
+          detectedFormat: 'png',
+          originalname: 'test.png',
+          size: 1024,
+        };
+
+        await assert.rejects(
+          async () => {
+            await uploadImage(dummyFile, { altText: 'Rollback test' });
+          },
+          (err) => {
+            assert.equal(err.message, 'Simulated MongoDB connection failure during Media.create');
+            return true;
+          }
+        );
+
+        assert.equal(destroyedAssets.length, 1);
+        assert.match(destroyedAssets[0], /^img_\d+_[a-f0-9]+$/);
+      } finally {
+        cloudinaryAdapter.uploadStream = originalUploadStream;
+        cloudinaryAdapter.destroyAsset = originalDestroyAsset;
+        Media.create = originalCreate;
+      }
+    });
+
+    test('uploadImage preserves original DB error even if compensating cleanup fails', async () => {
+      const originalUploadStream = cloudinaryAdapter.uploadStream;
+      const originalDestroyAsset = cloudinaryAdapter.destroyAsset;
+      const originalCreate = Media.create;
+
+      cloudinaryAdapter.uploadStream = async (buf, opts) => ({
+        public_id: opts.public_id || 'test_compensate_id_2',
+        secure_url: 'https://res.cloudinary.com/test/image/upload/v1/test_compensate_id_2.png',
+        format: 'png',
+        bytes: 1024,
+      });
+
+      cloudinaryAdapter.destroyAsset = async () => {
+        throw new Error('Cloudinary API unreachable during cleanup');
+      };
+
+      Media.create = async () => {
+        const error = new Error('Root MongoDB write error');
+        throw error;
+      };
+
+      try {
+        const dummyFile = {
+          buffer: validPngBuffer,
+          detectedFormat: 'png',
+          originalname: 'test.png',
+          size: 1024,
+        };
+
+        await assert.rejects(
+          async () => {
+            await uploadImage(dummyFile, { altText: 'Cleanup failure test' });
+          },
+          (err) => {
+            assert.equal(err.message, 'Root MongoDB write error');
+            return true;
+          }
+        );
+      } finally {
+        cloudinaryAdapter.uploadStream = originalUploadStream;
+        cloudinaryAdapter.destroyAsset = originalDestroyAsset;
+        Media.create = originalCreate;
+      }
+    });
+
+    test('deleteMedia retries transient MongoDB deletion failures and preserves record if all retries fail', async () => {
+      const originalDestroyAsset = cloudinaryAdapter.destroyAsset;
+      const originalFindByIdAndDelete = Media.findByIdAndDelete;
+
+      // Create test media
+      const media = await Media.create({
+        publicId: 'portfolio/test_retry_asset',
+        secureUrl: 'https://res.cloudinary.com/test/image/upload/v1/portfolio/test_retry_asset.png',
+        format: 'png',
+        bytes: 1024,
+      });
+
+      let destroyCalls = 0;
+      cloudinaryAdapter.destroyAsset = async () => {
+        destroyCalls++;
+        return { result: 'ok' };
+      };
+
+      let deleteAttempts = 0;
+      Media.findByIdAndDelete = async () => {
+        deleteAttempts++;
+        const error = new Error('Transient MongoDB connection failure');
+        throw error;
+      };
+
+      try {
+        await assert.rejects(
+          async () => {
+            await deleteMedia(media._id.toString());
+          },
+          (err) => {
+            assert.equal(err.message, 'Transient MongoDB connection failure');
+            return true;
+          }
+        );
+
+        // Bounded retry must have executed 3 times
+        assert.equal(deleteAttempts, 3);
+        assert.equal(destroyCalls, 1);
+
+        // Verify record is PRESERVED in MongoDB
+        Media.findByIdAndDelete = originalFindByIdAndDelete;
+        const checkMedia = await Media.findById(media._id);
+        assert.ok(checkMedia, 'Media record must be preserved in MongoDB when DB deletion fails');
+      } finally {
+        cloudinaryAdapter.destroyAsset = originalDestroyAsset;
+        Media.findByIdAndDelete = originalFindByIdAndDelete;
+      }
+    });
+
+    test('deleteMedia successfully removes preserved record on subsequent retry when Cloudinary returns not found', async () => {
+      const originalDestroyAsset = cloudinaryAdapter.destroyAsset;
+
+      // Create test media representing previously preserved asset
+      const media = await Media.create({
+        publicId: 'portfolio/test_recovered_asset',
+        secureUrl: 'https://res.cloudinary.com/test/image/upload/v1/portfolio/test_recovered_asset.png',
+        format: 'png',
+        bytes: 1024,
+      });
+
+      // Provider returns 'not found' because asset was destroyed in earlier attempt
+      cloudinaryAdapter.destroyAsset = async () => {
+        return { result: 'not found' };
+      };
+
+      try {
+        const result = await deleteMedia(media._id.toString());
+        assert.equal(result, true);
+
+        // Verify record is successfully removed from DB
+        const checkMedia = await Media.findById(media._id);
+        assert.equal(checkMedia, null);
+      } finally {
+        cloudinaryAdapter.destroyAsset = originalDestroyAsset;
+      }
     });
   });
 });

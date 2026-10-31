@@ -224,6 +224,11 @@ export const updateProject = async (id, updateData) => {
   if (updateData.thumbnailMediaId !== undefined) {
     if (updateData.thumbnailMediaId === null || updateData.thumbnailMediaId === '') {
       project.thumbnailMediaId = null;
+      if (updateData.thumbnailUrl !== undefined) {
+        project.thumbnailUrl = updateData.thumbnailUrl || null;
+      } else {
+        project.thumbnailUrl = null;
+      }
     } else {
       const media = await Media.findById(updateData.thumbnailMediaId);
       if (!media || media.resourceType !== 'image') {
@@ -234,10 +239,18 @@ export const updateProject = async (id, updateData) => {
       project.thumbnailMediaId = media._id;
       project.thumbnailUrl = media.secureUrl;
     }
+  } else if (updateData.thumbnailUrl !== undefined) {
+    if (updateData.thumbnailUrl === null || updateData.thumbnailUrl === '') {
+      project.thumbnailUrl = null;
+      project.thumbnailMediaId = null;
+    } else {
+      project.thumbnailUrl = updateData.thumbnailUrl;
+      project.thumbnailMediaId = null;
+    }
   }
 
   for (const field of allowedFields) {
-    if (field !== 'thumbnailMediaId' && field in updateData) {
+    if (field !== 'thumbnailMediaId' && field !== 'thumbnailUrl' && field in updateData) {
       project[field] = updateData[field];
     }
   }

@@ -114,6 +114,11 @@ export const updateProfile = async (updateData) => {
   if (updateData.profileImageMediaId !== undefined) {
     if (updateData.profileImageMediaId === null || updateData.profileImageMediaId === '') {
       profile.profileImageMediaId = null;
+      if (updateData.profileImageUrl !== undefined) {
+        profile.profileImageUrl = updateData.profileImageUrl || null;
+      } else {
+        profile.profileImageUrl = null;
+      }
     } else {
       const media = await Media.findById(updateData.profileImageMediaId);
       if (!media || media.resourceType !== 'image') {
@@ -124,10 +129,18 @@ export const updateProfile = async (updateData) => {
       profile.profileImageMediaId = media._id;
       profile.profileImageUrl = media.secureUrl;
     }
+  } else if (updateData.profileImageUrl !== undefined) {
+    if (updateData.profileImageUrl === null || updateData.profileImageUrl === '') {
+      profile.profileImageUrl = null;
+      profile.profileImageMediaId = null;
+    } else {
+      profile.profileImageUrl = updateData.profileImageUrl;
+      profile.profileImageMediaId = null;
+    }
   }
 
   for (const field of allowedFields) {
-    if (field !== 'profileImageMediaId' && field in updateData) {
+    if (field !== 'profileImageMediaId' && field !== 'profileImageUrl' && field in updateData) {
       profile[field] = updateData[field];
     }
   }

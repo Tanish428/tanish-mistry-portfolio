@@ -28,6 +28,10 @@ import {
   publicContactRouter,
 } from '../modules/contact-social/contact-social.routes.js';
 import adminMediaRouter from '../modules/media/media.routes.js';
+import {
+  adminHomepageSectionRouter,
+  publicHomepageSectionRouter,
+} from '../modules/homepage-sections/homepage-section.routes.js';
 
 const router = Router();
 
@@ -68,5 +72,9 @@ router.use('/portfolio/contact', publicContactRouter);
 
 // Media routes
 router.use('/admin/media', adminMediaRouter);
+
+// Homepage sections routes
+router.use('/admin/homepage-sections', adminHomepageSectionRouter);
+router.use('/portfolio/homepage-sections', publicHomepageSectionRouter);
 
 export default router;
