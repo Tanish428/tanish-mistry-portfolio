@@ -9,6 +9,12 @@ import {
   adminProjectRouter,
   publicProjectRouter,
 } from '../modules/projects/project.routes.js';
+import {
+  adminSkillCategoryRouter,
+  adminSkillRouter,
+  publicSkillCategoryRouter,
+  publicSkillRouter,
+} from '../modules/skills/skills.routes.js';
 
 const router = Router();
 
@@ -26,5 +32,11 @@ router.use('/portfolio/profile', publicProfileRouter);
 // Project routes
 router.use('/admin/projects', adminProjectRouter);
 router.use('/portfolio/projects', publicProjectRouter);
+
+// Skills & categories routes
+router.use('/admin/skill-categories', adminSkillCategoryRouter);
+router.use('/admin/skills', adminSkillRouter);
+router.use('/portfolio/skill-categories', publicSkillCategoryRouter);
+router.use('/portfolio/skills', publicSkillRouter);
 
 export default router;
