@@ -1,15 +1,17 @@
 {
-  "name": "backend",
+  "name": "tanish-portfolio-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend API for Tanish Mistry personal developer portfolio",
+  "main": "src/server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "check": "node --check src/config/env.js && node --check src/config/db.js && node --check src/middleware/notFound.js && node --check src/middleware/errorHandler.js && node --check src/controllers/health.controller.js && node --check src/routes/index.js && node --check src/app.js && node --check src/server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Tanish Mistry",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^18.0.9",
