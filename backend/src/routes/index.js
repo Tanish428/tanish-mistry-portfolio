@@ -21,6 +21,12 @@ import {
   publicExperienceRouter,
   publicEducationRouter,
 } from '../modules/experience-education/experience-education.routes.js';
+import {
+  adminSocialLinkRouter,
+  publicSocialLinkRouter,
+  adminContactMessageRouter,
+  publicContactRouter,
+} from '../modules/contact-social/contact-social.routes.js';
 
 const router = Router();
 
@@ -50,5 +56,13 @@ router.use('/admin/experience', adminExperienceRouter);
 router.use('/admin/education', adminEducationRouter);
 router.use('/portfolio/experience', publicExperienceRouter);
 router.use('/portfolio/education', publicEducationRouter);
+
+// Social links routes
+router.use('/admin/social-links', adminSocialLinkRouter);
+router.use('/portfolio/social-links', publicSocialLinkRouter);
+
+// Contact messages routes
+router.use('/admin/contact-messages', adminContactMessageRouter);
+router.use('/portfolio/contact', publicContactRouter);
 
 export default router;
