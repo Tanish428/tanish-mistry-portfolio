@@ -9,6 +9,7 @@ const ALLOWED_CREATE_FIELDS = [
   'technologies',
   'category',
   'thumbnailUrl',
+  'thumbnailMediaId',
   'thumbnailAlt',
   'liveDemoUrl',
   'repositoryUrl',
@@ -261,6 +262,17 @@ export const validateCreateProject = (req, res, next) => {
     }
   }
 
+  // Media reference validation
+  if (body.thumbnailMediaId !== undefined && body.thumbnailMediaId !== null && body.thumbnailMediaId !== '') {
+    if (!mongoose.Types.ObjectId.isValid(body.thumbnailMediaId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'thumbnailMediaId must be a valid ObjectId',
+        data: null,
+      });
+    }
+  }
+
   // Dates validation
   if (body.startDate && isNaN(new Date(body.startDate).getTime())) {
     return res.status(400).json({
@@ -453,6 +465,17 @@ export const validateUpdateProject = (req, res, next) => {
           data: null,
         });
       }
+    }
+  }
+
+  // Media reference validation
+  if (body.thumbnailMediaId !== undefined && body.thumbnailMediaId !== null && body.thumbnailMediaId !== '') {
+    if (!mongoose.Types.ObjectId.isValid(body.thumbnailMediaId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'thumbnailMediaId must be a valid ObjectId',
+        data: null,
+      });
     }
   }
 

@@ -1,4 +1,5 @@
 import Project, { generateSlug } from './project.model.js';
+import Media from '../media/media.model.js';
 
 /**
  * Escapes characters for safe regular expression matching
@@ -19,6 +20,7 @@ export const formatAdminProject = (project) => ({
   technologies: project.technologies,
   category: project.category,
   thumbnailUrl: project.thumbnailUrl,
+  thumbnailMediaId: project.thumbnailMediaId || null,
   thumbnailAlt: project.thumbnailAlt,
   liveDemoUrl: project.liveDemoUrl,
   repositoryUrl: project.repositoryUrl,
@@ -78,6 +80,16 @@ export const createProject = async (projectData) => {
     const error = new Error(`A project with slug '${slug}' already exists`);
     error.statusCode = 409;
     throw error;
+  }
+
+  if (projectData.thumbnailMediaId) {
+    const media = await Media.findById(projectData.thumbnailMediaId);
+    if (!media || media.resourceType !== 'image') {
+      const error = new Error('Referenced media record not found or is not an image');
+      error.statusCode = 400;
+      throw error;
+    }
+    projectData.thumbnailUrl = media.secureUrl;
   }
 
   try {
@@ -196,6 +208,7 @@ export const updateProject = async (id, updateData) => {
     'technologies',
     'category',
     'thumbnailUrl',
+    'thumbnailMediaId',
     'thumbnailAlt',
     'liveDemoUrl',
     'repositoryUrl',
@@ -208,8 +221,23 @@ export const updateProject = async (id, updateData) => {
     'displayOrder',
   ];
 
+  if (updateData.thumbnailMediaId !== undefined) {
+    if (updateData.thumbnailMediaId === null || updateData.thumbnailMediaId === '') {
+      project.thumbnailMediaId = null;
+    } else {
+      const media = await Media.findById(updateData.thumbnailMediaId);
+      if (!media || media.resourceType !== 'image') {
+        const error = new Error('Referenced media record not found or is not an image');
+        error.statusCode = 400;
+        throw error;
+      }
+      project.thumbnailMediaId = media._id;
+      project.thumbnailUrl = media.secureUrl;
+    }
+  }
+
   for (const field of allowedFields) {
-    if (field in updateData) {
+    if (field !== 'thumbnailMediaId' && field in updateData) {
       project[field] = updateData[field];
     }
   }

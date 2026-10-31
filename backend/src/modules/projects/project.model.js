@@ -81,6 +81,11 @@ const projectSchema = new mongoose.Schema(
       trim: true,
       default: null,
     },
+    thumbnailMediaId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media',
+      default: null,
+    },
     thumbnailAlt: {
       type: String,
       trim: true,

@@ -61,6 +61,11 @@ const profileSchema = new mongoose.Schema(
       trim: true,
       default: null,
     },
+    profileImageMediaId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media',
+      default: null,
+    },
     profileImageAlt: {
       type: String,
       trim: true,

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { AVAILABILITY_STATUSES } from './profile.model.js';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -19,6 +20,7 @@ const ALLOWED_UPDATE_FIELDS = [
   'location',
   'publicEmail',
   'profileImageUrl',
+  'profileImageMediaId',
   'profileImageAlt',
   'availabilityStatus',
   'isVisible',
@@ -88,6 +90,14 @@ const validateField = (field, value) => {
       if (value !== null && value !== undefined && value !== '') {
         if (!isValidHttpsUrl(value)) {
           return 'Profile image URL must be a valid HTTPS URL';
+        }
+      }
+      return null;
+
+    case 'profileImageMediaId':
+      if (value !== null && value !== undefined && value !== '') {
+        if (!mongoose.Types.ObjectId.isValid(value)) {
+          return 'profileImageMediaId must be a valid ObjectId';
         }
       }
       return null;

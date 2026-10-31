@@ -58,6 +58,17 @@ const config = Object.freeze({
 
   // CSRF secret
   csrfSecret: process.env.CSRF_SECRET || process.env.JWT_SECRET,
+
+  // Cloudinary configuration
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || '',
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET || '',
+  cloudinaryFolder: process.env.CLOUDINARY_FOLDER || 'portfolio',
+  isCloudinaryConfigured: Boolean(
+    process.env.CLOUDINARY_CLOUD_NAME &&
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_SECRET
+  ),
 });
 
 export default config;

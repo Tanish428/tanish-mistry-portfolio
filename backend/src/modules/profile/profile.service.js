@@ -1,4 +1,5 @@
 import Profile from './profile.model.js';
+import Media from '../media/media.model.js';
 
 /**
  * Creates the initial profile in draft state
@@ -9,6 +10,16 @@ export const createProfile = async (profileData) => {
     const error = new Error('A profile has already been created. Please update the existing profile.');
     error.statusCode = 409;
     throw error;
+  }
+
+  if (profileData.profileImageMediaId) {
+    const media = await Media.findById(profileData.profileImageMediaId);
+    if (!media || media.resourceType !== 'image') {
+      const error = new Error('Referenced media record not found or is not an image');
+      error.statusCode = 400;
+      throw error;
+    }
+    profileData.profileImageUrl = media.secureUrl;
   }
 
   try {
@@ -94,13 +105,29 @@ export const updateProfile = async (updateData) => {
     'location',
     'publicEmail',
     'profileImageUrl',
+    'profileImageMediaId',
     'profileImageAlt',
     'availabilityStatus',
     'isVisible',
   ];
 
+  if (updateData.profileImageMediaId !== undefined) {
+    if (updateData.profileImageMediaId === null || updateData.profileImageMediaId === '') {
+      profile.profileImageMediaId = null;
+    } else {
+      const media = await Media.findById(updateData.profileImageMediaId);
+      if (!media || media.resourceType !== 'image') {
+        const error = new Error('Referenced media record not found or is not an image');
+        error.statusCode = 400;
+        throw error;
+      }
+      profile.profileImageMediaId = media._id;
+      profile.profileImageUrl = media.secureUrl;
+    }
+  }
+
   for (const field of allowedFields) {
-    if (field in updateData) {
+    if (field !== 'profileImageMediaId' && field in updateData) {
       profile[field] = updateData[field];
     }
   }
@@ -164,6 +191,7 @@ const formatAdminProfile = (profile) => ({
   location: profile.location,
   publicEmail: profile.publicEmail,
   profileImageUrl: profile.profileImageUrl,
+  profileImageMediaId: profile.profileImageMediaId || null,
   profileImageAlt: profile.profileImageAlt,
   availabilityStatus: profile.availabilityStatus,
   isVisible: profile.isVisible,

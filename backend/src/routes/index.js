@@ -27,6 +27,7 @@ import {
   adminContactMessageRouter,
   publicContactRouter,
 } from '../modules/contact-social/contact-social.routes.js';
+import adminMediaRouter from '../modules/media/media.routes.js';
 
 const router = Router();
 
@@ -64,5 +65,8 @@ router.use('/portfolio/social-links', publicSocialLinkRouter);
 // Contact messages routes
 router.use('/admin/contact-messages', adminContactMessageRouter);
 router.use('/portfolio/contact', publicContactRouter);
+
+// Media routes
+router.use('/admin/media', adminMediaRouter);
 
 export default router;
