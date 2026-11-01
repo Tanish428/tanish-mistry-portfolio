@@ -23,6 +23,7 @@ export default function ProfileManager() {
     setFormData((prev) => ({
       ...prev,
       profileImageUrl: asset.secureUrl,
+      profileImageMediaId: asset._id || asset.id || null,
       profileImageAlt: prev.profileImageAlt || asset.altText || prev.fullName || '',
     }));
   };
@@ -35,6 +36,7 @@ export default function ProfileManager() {
     location: '',
     publicEmail: '',
     profileImageUrl: '',
+    profileImageMediaId: null,
     profileImageAlt: '',
     availabilityStatus: 'open_to_opportunities',
     isVisible: true,
@@ -51,6 +53,7 @@ export default function ProfileManager() {
         location: data.location || '',
         publicEmail: data.publicEmail || '',
         profileImageUrl: data.profileImageUrl || '',
+        profileImageMediaId: data.profileImageMediaId || null,
         profileImageAlt: data.profileImageAlt || '',
         availabilityStatus: data.availabilityStatus || 'open_to_opportunities',
         isVisible: data.isVisible !== false,
@@ -87,6 +90,7 @@ export default function ProfileManager() {
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
+      ...(name === 'profileImageUrl' && !value ? { profileImageMediaId: null } : {}),
     }));
   };
 

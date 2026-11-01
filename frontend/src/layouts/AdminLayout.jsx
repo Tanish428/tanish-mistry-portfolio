@@ -29,6 +29,7 @@ export default function AdminLayout() {
     { label: 'Education', path: '/admin/education' },
     { label: 'Media Library', path: '/admin/media' },
     { label: 'Homepage Sections', path: '/admin/sections' },
+    { label: 'Messages', path: '/admin/messages' },
   ];
 
   // Derive simple breadcrumb from current path
@@ -38,6 +39,9 @@ export default function AdminLayout() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'var(--color-bg-base)' }}>
+      <a href="#admin-main-content" className="visually-hidden">
+        Skip to admin content
+      </a>
       {/* Top Header */}
       <header
         style={{
@@ -140,6 +144,7 @@ export default function AdminLayout() {
           }}
         >
           <nav
+            aria-label="CMS Navigation"
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -175,7 +180,7 @@ export default function AdminLayout() {
         </aside>
 
         {/* Content Area */}
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <main id="admin-main-content" style={{ flex: 1, minWidth: 0 }}>
           {/* Breadcrumbs */}
           <div style={{ marginBottom: 'var(--space-4)', fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)' }}>
             <Link to="/admin" style={{ color: 'var(--color-text-secondary)' }}>
@@ -192,7 +197,7 @@ export default function AdminLayout() {
           </div>
 
           <Outlet />
-        </div>
+        </main>
       </div>
 
       <style>{`

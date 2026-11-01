@@ -1,0 +1,694 @@
+{
+  "$schema": "portfolio-import-schema-v1",
+  "metadata": {
+    "version": "1.1.0",
+    "description": "Production structured data import for Tanish Mistry Personal Developer Portfolio CMS",
+    "author": "Tanish Mistry",
+    "updatedAt": "2026-11-01T12:35:00.000Z"
+  },
+  "profile": {
+    "fullName": "Tanish Mistry",
+    "professionalTitle": "Full Stack Developer | Computer Engineering Student",
+    "shortIntroduction": "Passionate Computer Engineering student and full-stack developer building robust, user-centric web applications and dynamic software solutions.",
+    "about": "I am a dedicated Computer Engineering undergraduate at Dharmsinh Desai University with a strong foundation in full-stack web development, software engineering principles, and database management. My technical focus revolves around the MERN stack (MongoDB, Express.js, React, Node.js), scalable architecture design, and creating impactful digital tools. I enjoy solving complex engineering challenges and developing modern, responsive applications from concept to deployment.",
+    "location": "Nadiad, Gujarat, India",
+    "publicEmail": "tanishymistry@gmail.com",
+    "profileImageUrl": null,
+    "profileImageMediaId": null,
+    "profileImageAlt": null,
+    "availabilityStatus": "open_to_internships",
+    "isVisible": true,
+    "isPublished": true
+  },
+  "projects": [
+    {
+      "title": "MealMate",
+      "slug": "mealmate",
+      "category": "mobile",
+      "technologies": ["Flutter", "Dart", "Supabase", "PostgreSQL"],
+      "shortDescription": "Smart meal planning and recipe suggestion mobile application that assists users in organizing dietary preferences, recipes, and ingredient tracking.",
+      "description": "MealMate is a mobile meal planning and recipe suggestion application designed to streamline dietary management. The platform features intuitive recipe discovery, meal scheduling, pantry management, and personalized nutrition planning to help users maintain balanced lifestyles efficiently.",
+      "role": "Mobile App Developer",
+      "keyFeatures": [
+        "Dynamic meal scheduling and dietary planning",
+        "Nutritional breakdown and ingredient tracking",
+        "Interactive recipe search and categorization",
+        "Cross-platform responsive mobile user experience"
+      ],
+      "repositoryUrl": "https://github.com/Tanish428/Mealmate",
+      "liveDemoUrl": null,
+      "thumbnailUrl": null,
+      "thumbnailMediaId": null,
+      "thumbnailAlt": null,
+      "startDate": null,
+      "endDate": null,
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 0
+    },
+    {
+      "title": "SmartDeviceMatch",
+      "slug": "smartdevicematch",
+      "category": "web",
+      "technologies": ["C#", "ASP.NET Core MVC", "Entity Framework Core", "SQL Server", "SignalR"],
+      "shortDescription": "Intelligent device recommendation and comparison engine that helps consumers find optimal hardware based on customized requirements and budgets.",
+      "description": "SmartDeviceMatch is an intelligent device recommendation engine designed to simplify consumer hardware selection. By analyzing technical specifications, price-to-performance benchmarks, and user-defined constraints, the platform delivers tailored gadget recommendations and side-by-side hardware comparisons.",
+      "role": "Full Stack Developer",
+      "keyFeatures": [
+        "Multi-attribute device comparison and specification matrix",
+        "Custom filtering by budget, hardware category, and performance metrics",
+        "Intelligent scoring and match-percentage calculation",
+        "Modular component architecture for seamless catalog updates"
+      ],
+      "repositoryUrl": "https://github.com/Tanish428/SmartDeviceMatch",
+      "liveDemoUrl": null,
+      "thumbnailUrl": null,
+      "thumbnailMediaId": null,
+      "thumbnailAlt": null,
+      "startDate": null,
+      "endDate": null,
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 1
+    },
+    {
+      "title": "GRIP Career Readiness Platform",
+      "slug": "grip-career-readiness-platform",
+      "category": "fullstack",
+      "technologies": ["React", "Node.js", "Express.js", "MongoDB", "Mongoose"],
+      "shortDescription": "Collaborative career preparation platform empowering students and early-career engineers with targeted assessment tools and interview readiness.",
+      "description": "GRIP Career Readiness Platform is a collaborative career development platform built to empower engineering students and aspiring professionals. It provides structured learning roadmaps, mock assessment workflows, technical interview preparation modules, and peer collaboration tools to accelerate career placement success.",
+      "role": "Full Stack Developer",
+      "keyFeatures": [
+        "Structured technical career roadmaps and readiness checkpoints",
+        "Comprehensive interview preparation modules and practice assessments",
+        "Progress tracking dashboards with actionable skill gap analysis",
+        "Collaborative learning workflows and resource curation"
+      ],
+      "repositoryUrl": "https://github.com/Jay-612/grip-career-readiness-platform",
+      "liveDemoUrl": null,
+      "thumbnailUrl": null,
+      "thumbnailMediaId": null,
+      "thumbnailAlt": null,
+      "startDate": null,
+      "endDate": null,
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 2
+    },
+    {
+      "title": "StockRiskTracker",
+      "slug": "stockrisktracker",
+      "category": "web",
+      "technologies": ["Python", "Django", "SQLite", "yfinance", "HTML", "CSS", "JavaScript"],
+      "shortDescription": "Financial portfolio risk assessment and monitoring application tracking market volatility, asset exposure, and downside risks.",
+      "description": "StockRiskTracker is a financial analytics tool focused on equity risk assessment and portfolio volatility monitoring. The system calculates core risk metrics such as volatility, drawdown, and sector exposure, providing investors with actionable risk visualizations to safeguard capital in fluctuating market environments.",
+      "role": "Full Stack Developer",
+      "keyFeatures": [
+        "Portfolio volatility and value-at-risk analysis",
+        "Asset allocation and sector concentration breakdown",
+        "Real-time or simulated price monitoring and trend analysis",
+        "Interactive financial charting and risk exposure alerts"
+      ],
+      "repositoryUrl": "https://github.com/Tanish428/StockRiskTracker",
+      "liveDemoUrl": null,
+      "thumbnailUrl": null,
+      "thumbnailMediaId": null,
+      "thumbnailAlt": null,
+      "startDate": null,
+      "endDate": null,
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 3
+    }
+  ],
+  "skillCategories": [
+    {
+      "name": "Programming Languages",
+      "slug": "programming-languages",
+      "description": "Core programming languages used for problem solving, systems, and application logic",
+      "displayOrder": 0,
+      "isVisible": true,
+      "isPublished": true
+    },
+    {
+      "name": "Frontend Development",
+      "slug": "frontend-development",
+      "description": "Modern web frameworks, user interfaces, and responsive client architectures",
+      "displayOrder": 1,
+      "isVisible": true,
+      "isPublished": true
+    },
+    {
+      "name": "Backend Development",
+      "slug": "backend-development",
+      "description": "Server-side runtimes, RESTful API design, and web backend architecture",
+      "displayOrder": 2,
+      "isVisible": true,
+      "isPublished": true
+    },
+    {
+      "name": "Databases & Storage",
+      "slug": "databases-storage",
+      "description": "Document databases, relational database engines, and persistence layers",
+      "displayOrder": 3,
+      "isVisible": true,
+      "isPublished": true
+    },
+    {
+      "name": "Frameworks & Libraries",
+      "slug": "frameworks-libraries",
+      "description": "Mobile UI toolkits, object-relational mapping, and application libraries",
+      "displayOrder": 4,
+      "isVisible": true,
+      "isPublished": true
+    },
+    {
+      "name": "Tools & Platforms",
+      "slug": "tools-platforms",
+      "description": "Version control, development environments, API testing, and container tooling",
+      "displayOrder": 5,
+      "isVisible": true,
+      "isPublished": true
+    }
+  ],
+  "skills": [
+    {
+      "name": "C++",
+      "slug": "c-plus-plus",
+      "categorySlug": "programming-languages",
+      "proficiencyLevel": "advanced",
+      "description": "Object-oriented programming, standard template library (STL), data structures, and algorithms",
+      "iconName": "cplusplus",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 0
+    },
+    {
+      "name": "JavaScript (ES6+)",
+      "slug": "javascript",
+      "categorySlug": "programming-languages",
+      "proficiencyLevel": "advanced",
+      "description": "Modern asynchronous JavaScript, ES modules, DOM manipulation, and functional patterns",
+      "iconName": "javascript",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 1
+    },
+    {
+      "name": "Python",
+      "slug": "python",
+      "categorySlug": "programming-languages",
+      "proficiencyLevel": "intermediate",
+      "description": "Scripting, algorithmic problem solving, and backend automation",
+      "iconName": "python",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 2
+    },
+    {
+      "name": "Java",
+      "slug": "java",
+      "categorySlug": "programming-languages",
+      "proficiencyLevel": "intermediate",
+      "description": "Core object-oriented design, collections framework, and multi-threaded programming",
+      "iconName": "java",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 3
+    },
+    {
+      "name": "C#",
+      "slug": "c-sharp",
+      "categorySlug": "programming-languages",
+      "proficiencyLevel": "intermediate",
+      "description": "Strongly typed application programming, LINQ, and asynchronous .NET patterns",
+      "iconName": "csharp",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 4
+    },
+    {
+      "name": "TypeScript",
+      "slug": "typescript",
+      "categorySlug": "programming-languages",
+      "proficiencyLevel": "intermediate",
+      "description": "Type-safe JavaScript development, interface modeling, and static typing",
+      "iconName": "typescript",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 5
+    },
+    {
+      "name": "Dart",
+      "slug": "dart",
+      "categorySlug": "programming-languages",
+      "proficiencyLevel": "intermediate",
+      "description": "Client-optimized language for fast apps on any platform, core Flutter language",
+      "iconName": "dart",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 6
+    },
+    {
+      "name": "React.js",
+      "slug": "react",
+      "categorySlug": "frontend-development",
+      "proficiencyLevel": "advanced",
+      "description": "Declarative UI component architecture, hooks, state management, and modern React 19 workflows",
+      "iconName": "react",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 0
+    },
+    {
+      "name": "HTML5",
+      "slug": "html5",
+      "categorySlug": "frontend-development",
+      "proficiencyLevel": "advanced",
+      "description": "Semantic markup, accessibility landmarks, form validation, and web standards",
+      "iconName": "html5",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 1
+    },
+    {
+      "name": "CSS3",
+      "slug": "css3",
+      "categorySlug": "frontend-development",
+      "proficiencyLevel": "advanced",
+      "description": "Responsive styling, modern Flexbox and Grid layouts, CSS variables, and dark theme design",
+      "iconName": "css3",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 2
+    },
+    {
+      "name": "Bootstrap",
+      "slug": "bootstrap",
+      "categorySlug": "frontend-development",
+      "proficiencyLevel": "intermediate",
+      "description": "Responsive grid framework, rapid UI prototyping, and utility class systems",
+      "iconName": "bootstrap",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 3
+    },
+    {
+      "name": "Node.js",
+      "slug": "nodejs",
+      "categorySlug": "backend-development",
+      "proficiencyLevel": "advanced",
+      "description": "Asynchronous event-driven server runtime, stream handling, and modular monolith architecture",
+      "iconName": "nodedotjs",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 0
+    },
+    {
+      "name": "Express.js",
+      "slug": "express",
+      "categorySlug": "backend-development",
+      "proficiencyLevel": "advanced",
+      "description": "Middleware orchestration, centralized error handling, and robust routing structures",
+      "iconName": "express",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 1
+    },
+    {
+      "name": "REST APIs",
+      "slug": "rest-apis",
+      "categorySlug": "backend-development",
+      "proficiencyLevel": "advanced",
+      "description": "Versioned RESTful interface design, payload validation, and HTTP status code discipline",
+      "iconName": "api",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 2
+    },
+    {
+      "name": "ASP.NET Core MVC",
+      "slug": "aspnet-core-mvc",
+      "categorySlug": "backend-development",
+      "proficiencyLevel": "intermediate",
+      "description": "Cross-platform model-view-controller web application framework with dependency injection",
+      "iconName": "dotnet",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 3
+    },
+    {
+      "name": "Django",
+      "slug": "django",
+      "categorySlug": "backend-development",
+      "proficiencyLevel": "beginner",
+      "description": "High-level Python web framework encouraging rapid development and clean design",
+      "iconName": "django",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 4
+    },
+    {
+      "name": "MongoDB",
+      "slug": "mongodb",
+      "categorySlug": "databases-storage",
+      "proficiencyLevel": "advanced",
+      "description": "Document database modeling, indexing strategies, aggregation, and query optimization",
+      "iconName": "mongodb",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 0
+    },
+    {
+      "name": "MySQL",
+      "slug": "mysql",
+      "categorySlug": "databases-storage",
+      "proficiencyLevel": "intermediate",
+      "description": "Relational schema design, normalization, complex joins, and ACID compliance",
+      "iconName": "mysql",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 1
+    },
+    {
+      "name": "PostgreSQL",
+      "slug": "postgresql",
+      "categorySlug": "databases-storage",
+      "proficiencyLevel": "intermediate",
+      "description": "Advanced relational database management, indexing, JSON data types, and transactions",
+      "iconName": "postgresql",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 2
+    },
+    {
+      "name": "SQLite",
+      "slug": "sqlite",
+      "categorySlug": "databases-storage",
+      "proficiencyLevel": "intermediate",
+      "description": "Self-contained serverless SQL database engine for embedded and local application storage",
+      "iconName": "sqlite",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 3
+    },
+    {
+      "name": "SQL Server",
+      "slug": "sql-server",
+      "categorySlug": "databases-storage",
+      "proficiencyLevel": "intermediate",
+      "description": "Enterprise relational database management system with T-SQL querying",
+      "iconName": "sqlserver",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 4
+    },
+    {
+      "name": "Supabase",
+      "slug": "supabase",
+      "categorySlug": "databases-storage",
+      "proficiencyLevel": "beginner",
+      "description": "Backend-as-a-service providing hosted PostgreSQL and real-time data sync",
+      "iconName": "supabase",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 5
+    },
+    {
+      "name": "Flutter",
+      "slug": "flutter",
+      "categorySlug": "frameworks-libraries",
+      "proficiencyLevel": "intermediate",
+      "description": "Multi-platform UI software development kit for natively compiled mobile applications",
+      "iconName": "flutter",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 0
+    },
+    {
+      "name": "Mongoose ODM",
+      "slug": "mongoose",
+      "categorySlug": "frameworks-libraries",
+      "proficiencyLevel": "advanced",
+      "description": "Schema definition, lifecycle middleware, reference population, and data integrity constraints",
+      "iconName": "mongoose",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 1
+    },
+    {
+      "name": "Entity Framework Core",
+      "slug": "ef-core",
+      "categorySlug": "frameworks-libraries",
+      "proficiencyLevel": "intermediate",
+      "description": "Object-relational mapper for .NET enabling database manipulation through .NET objects",
+      "iconName": "dotnet",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 2
+    },
+    {
+      "name": "Hibernate",
+      "slug": "hibernate",
+      "categorySlug": "frameworks-libraries",
+      "proficiencyLevel": "beginner",
+      "description": "Java object-relational mapping framework for relational database persistence",
+      "iconName": "hibernate",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 3
+    },
+    {
+      "name": "Git",
+      "slug": "git",
+      "categorySlug": "tools-platforms",
+      "proficiencyLevel": "advanced",
+      "description": "Distributed version control, branching strategies, and commit discipline",
+      "iconName": "git",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 0
+    },
+    {
+      "name": "GitHub",
+      "slug": "github",
+      "categorySlug": "tools-platforms",
+      "proficiencyLevel": "advanced",
+      "description": "Code collaboration, repository management, issue tracking, and open-source contribution",
+      "iconName": "github",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 1
+    },
+    {
+      "name": "Visual Studio Code",
+      "slug": "vscode",
+      "categorySlug": "tools-platforms",
+      "proficiencyLevel": "advanced",
+      "description": "Primary code editor, debugging workflows, extension ecosystem, and terminal integration",
+      "iconName": "vscode",
+      "isFeatured": true,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 2
+    },
+    {
+      "name": "Postman",
+      "slug": "postman",
+      "categorySlug": "tools-platforms",
+      "proficiencyLevel": "intermediate",
+      "description": "API design, endpoint exploration, automated request collections, and environment testing",
+      "iconName": "postman",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 3
+    },
+    {
+      "name": "Docker",
+      "slug": "docker",
+      "categorySlug": "tools-platforms",
+      "proficiencyLevel": "beginner",
+      "description": "Container virtualization basics, Dockerfile authoring, and isolated runtimes",
+      "iconName": "docker",
+      "isFeatured": false,
+      "isVisible": true,
+      "isPublished": true,
+      "displayOrder": 4
+    }
+  ],
+  "education": [
+    {
+      "institution": "Dharmsinh Desai University",
+      "degree": "B.Tech. Computer Engineering",
+      "fieldOfStudy": "Computer Engineering",
+      "location": "Nadiad, Gujarat, India",
+      "startDate": "2024-07-01T00:00:00.000Z",
+      "endDate": "2028-06-30T00:00:00.000Z",
+      "isCurrent": true,
+      "grade": "CGPA: 9.26/10",
+      "description": "Pursuing Bachelor of Technology in Computer Engineering at Dharmsinh Desai University (Current Semester: V). Maintaining a CGPA of 9.26/10 with strong focus on software engineering, data structures, full-stack web development, and algorithms.",
+      "achievements": [
+        "CGPA: 9.26/10",
+        "Semester V Standing"
+      ],
+      "displayOrder": 0,
+      "isVisible": true,
+      "isPublished": true
+    }
+  ],
+  "experience": [],
+  "socialLinks": [
+    {
+      "platform": "linkedin",
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/tanish-mistry-1531333b9/",
+      "iconName": "linkedin",
+      "displayOrder": 0,
+      "isVisible": true,
+      "isPublished": true
+    },
+    {
+      "platform": "github",
+      "label": "GitHub",
+      "url": "https://github.com/Tanish428",
+      "iconName": "github",
+      "displayOrder": 1,
+      "isVisible": true,
+      "isPublished": true
+    }
+  ],
+  "homepageSections": [
+    {
+      "type": "hero",
+      "title": null,
+      "subtitle": null,
+      "displayOrder": 0,
+      "isVisible": true,
+      "isPublished": true,
+      "config": {
+        "showProfileImage": true,
+        "showAvailability": true,
+        "primaryCtaLabel": "View Projects",
+        "primaryCtaUrl": "#projects",
+        "secondaryCtaLabel": "Contact Me",
+        "secondaryCtaUrl": "#contact"
+      }
+    },
+    {
+      "type": "about",
+      "title": "About Me",
+      "subtitle": "Engineering background, technical mindset, and passion for building robust software.",
+      "displayOrder": 1,
+      "isVisible": true,
+      "isPublished": true,
+      "config": {
+        "showProfileImage": true,
+        "maxTextLength": 2000
+      }
+    },
+    {
+      "type": "projects",
+      "title": "Featured Projects",
+      "subtitle": "A showcase of full-stack web platforms and engineering projects.",
+      "displayOrder": 2,
+      "isVisible": true,
+      "isPublished": true,
+      "config": {
+        "featuredOnly": false,
+        "limit": 10
+      }
+    },
+    {
+      "type": "skills",
+      "title": "Technical Skills",
+      "subtitle": "Languages, frameworks, databases, and developer tooling.",
+      "displayOrder": 3,
+      "isVisible": true,
+      "isPublished": true,
+      "config": {
+        "featuredOnly": false,
+        "limit": 50
+      }
+    },
+    {
+      "type": "experience",
+      "title": "Experience",
+      "subtitle": "Professional software engineering and internship history.",
+      "displayOrder": 4,
+      "isVisible": true,
+      "isPublished": false,
+      "config": {
+        "limit": 10
+      }
+    },
+    {
+      "type": "education",
+      "title": "Education",
+      "subtitle": "Academic foundation and computer engineering degree.",
+      "displayOrder": 5,
+      "isVisible": true,
+      "isPublished": true,
+      "config": {
+        "limit": 10
+      }
+    },
+    {
+      "type": "social_links",
+      "title": "Connect With Me",
+      "subtitle": "Find me across developer platforms and professional networks.",
+      "displayOrder": 6,
+      "isVisible": true,
+      "isPublished": true,
+      "config": {
+        "limit": 10
+      }
+    },
+    {
+      "type": "contact",
+      "title": "Get In Touch",
+      "subtitle": "Have an opportunity or question? Feel free to reach out directly.",
+      "displayOrder": 7,
+      "isVisible": true,
+      "isPublished": true,
+      "config": {
+        "showContactForm": true,
+        "heading": "Let's Connect",
+        "supportingText": "Feel free to reach out regarding software engineering roles, collaborations, or inquiries."
+      }
+    }
+  ]
+}

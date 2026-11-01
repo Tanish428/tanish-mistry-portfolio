@@ -15,6 +15,7 @@ import ExperienceManager from '../pages/admin/ExperienceManager.jsx';
 import EducationManager from '../pages/admin/EducationManager.jsx';
 import MediaLibrary from '../pages/admin/MediaLibrary.jsx';
 import HomepageSectionManager from '../pages/admin/HomepageSectionManager.jsx';
+import ContactInbox from '../pages/admin/ContactInbox.jsx';
 
 export default function AppRoutes() {
   return (
@@ -39,6 +40,7 @@ export default function AppRoutes() {
           <Route path="education" element={<EducationManager />} />
           <Route path="media" element={<MediaLibrary />} />
           <Route path="sections" element={<HomepageSectionManager />} />
+          <Route path="messages" element={<ContactInbox />} />
           <Route path="*" element={<AdminDashboardPage />} />
         </Route>
       </Route>

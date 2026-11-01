@@ -11,7 +11,7 @@ export default function PublicLayout() {
     { label: 'About', href: isHome ? '#about' : '/#about' },
     { label: 'Projects', href: isHome ? '#projects' : '/#projects' },
     { label: 'Skills', href: isHome ? '#skills' : '/#skills' },
-    { label: 'Experience', href: isHome ? '#experience' : '/#experience' },
+    { label: 'Education', href: isHome ? '#education' : '/#education' },
     { label: 'Contact', href: isHome ? '#contact' : '/#contact' },
   ];
 
@@ -20,15 +20,19 @@ export default function PublicLayout() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'var(--color-bg-base)' }}>
+      <a href="#main-content" className="visually-hidden">
+        Skip to main content
+      </a>
       <header
         style={{
           position: 'sticky',
           top: 0,
           zIndex: 'var(--z-sticky)',
-          backgroundColor: 'var(--color-bg-surface)',
-          borderBottom: '1px solid var(--color-border)',
-          backdropFilter: 'blur(8px)',
+          backgroundColor: 'rgba(9, 8, 18, 0.85)',
+          borderBottom: '1px solid rgba(168, 85, 247, 0.2)',
+          backdropFilter: 'blur(16px)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
         }}
       >
         <div
@@ -37,26 +41,40 @@ export default function PublicLayout() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            height: '64px',
+            height: '72px',
           }}
         >
           <Link
             to="/"
             style={{
-              fontSize: 'var(--text-lg)',
-              fontWeight: 'var(--weight-bold)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)',
+              fontSize: 'var(--text-xl)',
+              fontWeight: 'var(--weight-extrabold)',
               color: 'var(--color-text-primary)',
+              textDecoration: 'none',
               letterSpacing: '-0.02em',
             }}
           >
-            Tanish Mistry
+            <span
+              style={{
+                display: 'inline-block',
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--color-primary)',
+                boxShadow: '0 0 12px var(--color-primary)',
+              }}
+            />
+            <span className="gradient-heading" style={{ textTransform: 'uppercase' }}>Tanish Mistry</span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav
             style={{
               display: 'none',
-              gap: 'var(--space-6)',
+              gap: 'var(--space-8)',
               alignItems: 'center',
             }}
             className="desktop-nav"
@@ -66,10 +84,12 @@ export default function PublicLayout() {
               <a
                 key={link.label}
                 href={link.href}
+                className="nav-link"
                 style={{
                   fontSize: 'var(--text-sm)',
                   fontWeight: 'var(--weight-medium)',
                   color: 'var(--color-text-secondary)',
+                  textDecoration: 'none',
                   transition: 'color var(--transition-fast)',
                 }}
               >
@@ -81,8 +101,9 @@ export default function PublicLayout() {
               className="btn btn-outline"
               style={{
                 fontSize: 'var(--text-xs)',
-                padding: 'var(--space-1) var(--space-3)',
-                marginLeft: 'var(--space-2)',
+                padding: 'var(--space-2) var(--space-4)',
+                borderRadius: 'var(--radius-full)',
+                borderColor: 'rgba(168, 85, 247, 0.35)',
               }}
             >
               CMS Portal
@@ -101,16 +122,16 @@ export default function PublicLayout() {
               alignItems: 'center',
               justifyContent: 'center',
               padding: 'var(--space-2)',
-              backgroundColor: 'transparent',
-              border: '1px solid var(--color-border)',
+              backgroundColor: 'rgba(21, 17, 40, 0.7)',
+              border: '1px solid rgba(168, 85, 247, 0.3)',
               borderRadius: 'var(--radius-md)',
               cursor: 'pointer',
               color: 'var(--color-text-primary)',
             }}
           >
             <svg
-              width="20"
-              height="20"
+              width="22"
+              height="22"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -140,9 +161,10 @@ export default function PublicLayout() {
           <nav
             className="mobile-nav-menu"
             style={{
-              borderTop: '1px solid var(--color-border)',
-              backgroundColor: 'var(--color-bg-surface)',
-              padding: 'var(--space-4) 0',
+              borderTop: '1px solid rgba(168, 85, 247, 0.2)',
+              backgroundColor: 'rgba(16, 13, 32, 0.98)',
+              backdropFilter: 'blur(16px)',
+              padding: 'var(--space-6) 0',
             }}
             aria-label="Mobile Navigation"
           >
@@ -151,7 +173,7 @@ export default function PublicLayout() {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 'var(--space-3)',
+                gap: 'var(--space-4)',
               }}
             >
               {navLinks.map((link) => (
@@ -163,13 +185,15 @@ export default function PublicLayout() {
                     fontSize: 'var(--text-base)',
                     fontWeight: 'var(--weight-medium)',
                     color: 'var(--color-text-primary)',
+                    textDecoration: 'none',
                     padding: 'var(--space-2) 0',
+                    borderBottom: '1px solid rgba(168, 85, 247, 0.1)',
                   }}
                 >
                   {link.label}
                 </a>
               ))}
-              <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: 'var(--space-3)' }}>
+              <div style={{ paddingTop: 'var(--space-2)' }}>
                 <Link
                   to="/admin/login"
                   onClick={handleLinkClick}
@@ -184,29 +208,50 @@ export default function PublicLayout() {
         )}
       </header>
 
-      <main style={{ flex: 1 }}>
+      <main id="main-content" style={{ flex: 1 }}>
         <Outlet />
       </main>
 
       <footer
         style={{
-          borderTop: '1px solid var(--color-border)',
-          backgroundColor: 'var(--color-bg-surface)',
-          padding: 'var(--space-8) 0',
+          borderTop: '1px solid rgba(168, 85, 247, 0.2)',
+          backgroundColor: '#090812',
+          padding: 'var(--space-10) 0',
           textAlign: 'center',
           color: 'var(--color-text-muted)',
           fontSize: 'var(--text-sm)',
+          position: 'relative',
         }}
       >
-        <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-          <p style={{ fontWeight: 'var(--weight-medium)', color: 'var(--color-text-secondary)' }}>
-            Tanish Mistry — Developer Portfolio
+        <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            <span
+              style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--color-primary)',
+                boxShadow: '0 0 10px var(--color-primary)',
+              }}
+            />
+            <p style={{ fontWeight: 'var(--weight-bold)', color: 'var(--color-text-primary)', letterSpacing: '0.05em' }}>
+              TANISH MISTRY
+            </p>
+          </div>
+          <p style={{ color: 'var(--color-text-secondary)', maxWidth: '500px' }}>
+            Full-Stack Developer & Computer Engineering Undergraduate at Dharmsinh Desai University.
           </p>
-          <p>© {new Date().getFullYear()} All rights reserved. Managed with dynamic CMS.</p>
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)' }}>
+            © {new Date().getFullYear()} Tanish Mistry. Built with MERN Stack & Cloudinary CMS.
+          </p>
         </div>
       </footer>
 
       <style>{`
+        .nav-link:hover {
+          color: var(--color-primary) !important;
+          text-shadow: 0 0 8px rgba(185, 77, 255, 0.4);
+        }
         @media (min-width: 768px) {
           .desktop-nav {
             display: flex !important;

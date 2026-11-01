@@ -288,3 +288,27 @@ export async function reorderAdminHomepageSections(sectionsArray) {
   const response = await apiClient.patch('/api/v1/admin/homepage-sections/reorder', sectionsArray);
   return response?.data;
 }
+
+// ==========================================
+// 7. CONTACT MESSAGES API
+// ==========================================
+
+export async function getAdminContactMessages(params = {}) {
+  const response = await apiClient.get('/api/v1/admin/contact-messages', { params });
+  return response?.data; // { messages: [...], pagination: { total, page, limit, totalPages, ... } }
+}
+
+export async function getAdminContactMessageById(id) {
+  const response = await apiClient.get(`/api/v1/admin/contact-messages/${id}`);
+  return response?.data; // { id, name, email, subject, message, status, createdAt, updatedAt }
+}
+
+export async function updateAdminContactMessageStatus(id, status) {
+  const response = await apiClient.patch(`/api/v1/admin/contact-messages/${id}/status`, { status });
+  return response?.data; // updated message
+}
+
+export async function deleteAdminContactMessage(id) {
+  const response = await apiClient.delete(`/api/v1/admin/contact-messages/${id}`);
+  return response?.data;
+}

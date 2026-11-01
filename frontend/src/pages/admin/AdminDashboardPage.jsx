@@ -33,7 +33,7 @@ export default function AdminDashboardPage() {
     { title: 'Experience & Education', desc: 'Career history and academic credentials', tag: 'Active', link: '/admin/experience' },
     { title: 'Cloudinary Media Library', desc: 'Upload, inspect and delete image assets', tag: 'Active', link: '/admin/media' },
     { title: 'Dynamic Homepage Sections', desc: 'Reorder sections, toggle visibility & config', tag: 'Active', link: '/admin/sections' },
-    { title: 'Contact Messages Inbox', desc: 'Review submissions, mark read & archive', tag: 'Phase 6', link: null },
+    { title: 'Contact Messages Inbox', desc: 'Review submissions, mark read & archive', tag: 'Active', link: '/admin/messages' },
   ];
 
   return (
