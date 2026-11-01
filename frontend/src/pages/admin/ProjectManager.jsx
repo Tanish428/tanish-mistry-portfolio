@@ -3,6 +3,7 @@ import * as adminApi from '../../api/adminApi.js';
 import Modal from '../../components/admin/Modal.jsx';
 import ConfirmDialog from '../../components/admin/ConfirmDialog.jsx';
 import Toast from '../../components/admin/Toast.jsx';
+import ImagePickerModal from '../../components/admin/ImagePickerModal.jsx';
 
 const PROJECT_CATEGORIES = ['web', 'mobile', 'desktop', 'backend', 'fullstack', 'other'];
 
@@ -34,6 +35,15 @@ export default function ProjectManager() {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [toast, setToast] = useState(null);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+
+  const handleSelectThumbnail = (asset) => {
+    setFormData((prev) => ({
+      ...prev,
+      thumbnailUrl: asset.secureUrl,
+      thumbnailAlt: prev.thumbnailAlt || asset.altText || prev.title || '',
+    }));
+  };
 
   const [formData, setFormData] = useState(initialProjectState);
 
@@ -433,8 +443,35 @@ export default function ProjectManager() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-4)' }}>
             <div>
-              <label htmlFor="proj-thumb">Thumbnail URL (HTTPS)</label>
-              <input id="proj-thumb" name="thumbnailUrl" type="url" value={formData.thumbnailUrl} onChange={handleFormChange} placeholder="https://res.cloudinary.com/..." />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-1)' }}>
+                <label htmlFor="proj-thumb">Thumbnail URL (HTTPS)</label>
+                <button
+                  type="button"
+                  onClick={() => setIsPickerOpen(true)}
+                  className="btn btn-outline"
+                  style={{ fontSize: '11px', padding: '2px var(--space-2)' }}
+                >
+                  🖼 Choose from Library
+                </button>
+              </div>
+              <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
+                {formData.thumbnailUrl && (
+                  <img
+                    src={formData.thumbnailUrl}
+                    alt="Preview"
+                    style={{ width: '40px', height: '28px', borderRadius: 'var(--radius-sm)', objectFit: 'cover', border: '1px solid var(--color-primary)' }}
+                  />
+                )}
+                <input
+                  id="proj-thumb"
+                  name="thumbnailUrl"
+                  type="url"
+                  value={formData.thumbnailUrl}
+                  onChange={handleFormChange}
+                  placeholder="https://res.cloudinary.com/..."
+                  style={{ flex: 1 }}
+                />
+              </div>
             </div>
 
             <div>
@@ -476,6 +513,13 @@ export default function ProjectManager() {
       />
 
       <Toast toast={toast} onDismiss={() => setToast(null)} />
+
+      <ImagePickerModal
+        isOpen={isPickerOpen}
+        onClose={() => setIsPickerOpen(false)}
+        onSelectImage={handleSelectThumbnail}
+        title="Select Project Thumbnail from Media Library"
+      />
     </div>
   );
 }

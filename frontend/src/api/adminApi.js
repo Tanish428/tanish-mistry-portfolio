@@ -220,3 +220,71 @@ export async function unpublishAdminEducation(id) {
   const response = await apiClient.patch(`/api/v1/admin/education/${id}/unpublish`);
   return response?.data?.education;
 }
+
+// ==========================================
+// 5. MEDIA LIBRARY API
+// ==========================================
+
+export async function getAdminMedia(params = {}) {
+  const response = await apiClient.get('/api/v1/admin/media', { params });
+  return response?.data; // { media: [...], pagination: { ... } }
+}
+
+export async function getAdminMediaById(id) {
+  const response = await apiClient.get(`/api/v1/admin/media/${id}`);
+  return response?.data;
+}
+
+export async function uploadAdminMedia(formData) {
+  const response = await apiClient.post('/api/v1/admin/media/images', formData);
+  return response?.data; // media object { id, secureUrl, ... }
+}
+
+export async function deleteAdminMedia(id) {
+  const response = await apiClient.delete(`/api/v1/admin/media/${id}`);
+  return response?.data;
+}
+
+// ==========================================
+// 6. HOMEPAGE SECTIONS API
+// ==========================================
+
+export async function getAdminHomepageSections() {
+  const response = await apiClient.get('/api/v1/admin/homepage-sections');
+  return response?.data; // { sections: [...] }
+}
+
+export async function getAdminHomepageSectionById(id) {
+  const response = await apiClient.get(`/api/v1/admin/homepage-sections/${id}`);
+  return response?.data?.section;
+}
+
+export async function createAdminHomepageSection(sectionData) {
+  const response = await apiClient.post('/api/v1/admin/homepage-sections', sectionData);
+  return response?.data?.section;
+}
+
+export async function updateAdminHomepageSection(id, sectionData) {
+  const response = await apiClient.patch(`/api/v1/admin/homepage-sections/${id}`, sectionData);
+  return response?.data?.section;
+}
+
+export async function deleteAdminHomepageSection(id) {
+  const response = await apiClient.delete(`/api/v1/admin/homepage-sections/${id}`);
+  return response?.data;
+}
+
+export async function publishAdminHomepageSection(id) {
+  const response = await apiClient.patch(`/api/v1/admin/homepage-sections/${id}/publish`);
+  return response?.data?.section;
+}
+
+export async function unpublishAdminHomepageSection(id) {
+  const response = await apiClient.patch(`/api/v1/admin/homepage-sections/${id}/unpublish`);
+  return response?.data?.section;
+}
+
+export async function reorderAdminHomepageSections(sectionsArray) {
+  const response = await apiClient.patch('/api/v1/admin/homepage-sections/reorder', sectionsArray);
+  return response?.data;
+}

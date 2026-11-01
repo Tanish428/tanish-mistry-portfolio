@@ -13,6 +13,8 @@ import SkillCategoryManager from '../pages/admin/SkillCategoryManager.jsx';
 import SkillManager from '../pages/admin/SkillManager.jsx';
 import ExperienceManager from '../pages/admin/ExperienceManager.jsx';
 import EducationManager from '../pages/admin/EducationManager.jsx';
+import MediaLibrary from '../pages/admin/MediaLibrary.jsx';
+import HomepageSectionManager from '../pages/admin/HomepageSectionManager.jsx';
 
 export default function AppRoutes() {
   return (
@@ -35,6 +37,8 @@ export default function AppRoutes() {
           <Route path="skills" element={<SkillManager />} />
           <Route path="experience" element={<ExperienceManager />} />
           <Route path="education" element={<EducationManager />} />
+          <Route path="media" element={<MediaLibrary />} />
+          <Route path="sections" element={<HomepageSectionManager />} />
           <Route path="*" element={<AdminDashboardPage />} />
         </Route>
       </Route>

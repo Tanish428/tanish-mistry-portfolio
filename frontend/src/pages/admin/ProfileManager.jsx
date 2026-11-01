@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as adminApi from '../../api/adminApi.js';
 import Toast from '../../components/admin/Toast.jsx';
+import ImagePickerModal from '../../components/admin/ImagePickerModal.jsx';
 
 const AVAILABILITY_OPTIONS = [
   { value: 'open_to_opportunities', label: 'Open to Opportunities' },
@@ -16,6 +17,15 @@ export default function ProfileManager() {
   const [isSaving, setIsSaving] = useState(false);
   const [toast, setToast] = useState(null);
   const [error, setError] = useState(null);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+
+  const handleSelectImage = (asset) => {
+    setFormData((prev) => ({
+      ...prev,
+      profileImageUrl: asset.secureUrl,
+      profileImageAlt: prev.profileImageAlt || asset.altText || prev.fullName || '',
+    }));
+  };
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -266,15 +276,35 @@ export default function ProfileManager() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-4)' }}>
           <div>
-            <label htmlFor="profileImageUrl">Profile Image URL (HTTPS)</label>
-            <input
-              id="profileImageUrl"
-              name="profileImageUrl"
-              type="url"
-              value={formData.profileImageUrl}
-              onChange={handleChange}
-              placeholder="https://res.cloudinary.com/.../image.jpg"
-            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-1)' }}>
+              <label htmlFor="profileImageUrl">Profile Image URL (HTTPS)</label>
+              <button
+                type="button"
+                onClick={() => setIsPickerOpen(true)}
+                className="btn btn-outline"
+                style={{ fontSize: '11px', padding: '2px var(--space-2)' }}
+              >
+                🖼 Choose from Library
+              </button>
+            </div>
+            <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
+              {formData.profileImageUrl && (
+                <img
+                  src={formData.profileImageUrl}
+                  alt="Preview"
+                  style={{ width: '36px', height: '36px', borderRadius: 'var(--radius-full)', objectFit: 'cover', border: '1px solid var(--color-primary)' }}
+                />
+              )}
+              <input
+                id="profileImageUrl"
+                name="profileImageUrl"
+                type="url"
+                value={formData.profileImageUrl}
+                onChange={handleChange}
+                placeholder="https://res.cloudinary.com/.../image.jpg"
+                style={{ flex: 1 }}
+              />
+            </div>
           </div>
 
           <div>
@@ -329,6 +359,13 @@ export default function ProfileManager() {
       </form>
 
       <Toast toast={toast} onDismiss={() => setToast(null)} />
+
+      <ImagePickerModal
+        isOpen={isPickerOpen}
+        onClose={() => setIsPickerOpen(false)}
+        onSelectImage={handleSelectImage}
+        title="Select Profile Avatar from Media Library"
+      />
     </div>
   );
 }

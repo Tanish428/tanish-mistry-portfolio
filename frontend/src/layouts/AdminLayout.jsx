@@ -27,6 +27,8 @@ export default function AdminLayout() {
     { label: 'Skills', path: '/admin/skills' },
     { label: 'Experience', path: '/admin/experience' },
     { label: 'Education', path: '/admin/education' },
+    { label: 'Media Library', path: '/admin/media' },
+    { label: 'Homepage Sections', path: '/admin/sections' },
   ];
 
   // Derive simple breadcrumb from current path
