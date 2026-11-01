@@ -48,20 +48,6 @@ const isValidHttpsUrl = (url) => {
 };
 
 /**
- * Checks for MongoDB operator keys ($...)
- */
-const hasMongoOperators = (obj) => {
-  if (!obj || typeof obj !== 'object') return false;
-  for (const key of Object.keys(obj)) {
-    if (key.startsWith('$')) return true;
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      if (hasMongoOperators(obj[key])) return true;
-    }
-  }
-  return false;
-};
-
-/**
  * Normalizes and validates technology list
  */
 const normalizeTechnologies = (techArray) => {
@@ -126,14 +112,6 @@ export const validateCreateProject = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
       data: null,
     });
   }
@@ -336,14 +314,6 @@ export const validateUpdateProject = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
       data: null,
     });
   }

@@ -37,20 +37,6 @@ const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ICON_NAME_REGEX = /^[a-zA-Z0-9_-]+$/;
 
 /**
- * Checks for MongoDB operator keys ($...)
- */
-const hasMongoOperators = (obj) => {
-  if (!obj || typeof obj !== 'object') return false;
-  for (const key of Object.keys(obj)) {
-    if (key.startsWith('$')) return true;
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      if (hasMongoOperators(obj[key])) return true;
-    }
-  }
-  return false;
-};
-
-/**
  * Validates request body for skill category creation
  */
 export const validateCreateSkillCategory = (req, res, next) => {
@@ -60,14 +46,6 @@ export const validateCreateSkillCategory = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
       data: null,
     });
   }
@@ -149,14 +127,6 @@ export const validateUpdateSkillCategory = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
       data: null,
     });
   }
@@ -248,14 +218,6 @@ export const validateCreateSkill = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
       data: null,
     });
   }
@@ -372,14 +334,6 @@ export const validateUpdateSkill = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
       data: null,
     });
   }

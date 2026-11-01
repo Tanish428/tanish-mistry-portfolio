@@ -5,15 +5,6 @@ const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]
 const platformRegex = /^[a-z0-9-]+$/;
 const iconRegex = /^[a-zA-Z0-9_-]{1,50}$/;
 
-const hasMongoOperators = (obj) => {
-  if (!obj || typeof obj !== 'object') return false;
-  for (const key of Object.keys(obj)) {
-    if (key.startsWith('$')) return true;
-    if (typeof obj[key] === 'object' && hasMongoOperators(obj[key])) return true;
-  }
-  return false;
-};
-
 const isValidHttpsUrl = (urlString) => {
   if (typeof urlString !== 'string') return false;
   try {
@@ -64,14 +55,6 @@ export const validateContactSubmission = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Payload contains prohibited operators',
       data: null,
     });
   }
@@ -198,14 +181,6 @@ export const validateUpdateMessageStatus = (req, res, next) => {
     });
   }
 
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Payload contains prohibited operators',
-      data: null,
-    });
-  }
-
   const keys = Object.keys(body);
   for (const key of keys) {
     if (key !== 'status') {
@@ -238,14 +213,6 @@ export const validateCreateSocialLink = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Payload contains prohibited operators',
       data: null,
     });
   }
@@ -343,14 +310,6 @@ export const validateUpdateSocialLink = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Payload contains prohibited operators',
       data: null,
     });
   }

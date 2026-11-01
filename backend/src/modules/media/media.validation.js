@@ -1,5 +1,6 @@
 import multer from 'multer';
 import mongoose from 'mongoose';
+import { hasMongoOperators } from '../../middleware/mongoSanitize.js';
 
 // 5 MB maximum file size limit
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -128,6 +129,14 @@ export const validateImageFile = (req, res, next) => {
   }
 
   req.file.detectedFormat = detectedFormat;
+
+  if (req.body && hasMongoOperators(req.body)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Prohibited operator character in request data',
+      data: null,
+    });
+  }
 
   if (req.body.altText !== undefined && req.body.altText !== null) {
     if (typeof req.body.altText !== 'string' || req.body.altText.trim().length > 200) {

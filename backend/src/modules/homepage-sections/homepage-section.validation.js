@@ -12,26 +12,6 @@ const ALLOWED_PROJECT_CATEGORIES = [
 ];
 
 /**
- * Checks for MongoDB injection operator characters in keys
- */
-export const hasMongoOperators = (obj) => {
-  if (!obj || typeof obj !== 'object') {
-    return false;
-  }
-  for (const key of Object.keys(obj)) {
-    if (key.startsWith('$') || key.includes('.')) {
-      return true;
-    }
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      if (hasMongoOperators(obj[key])) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
-/**
  * Validates URLs (either full HTTPS/HTTP or internal anchors/paths)
  */
 const isValidUrlOrPath = (val) => {
@@ -310,14 +290,6 @@ export const validateCreateHomepageSection = (req, res, next) => {
     });
   }
 
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
-      data: null,
-    });
-  }
-
   const forbidden = ['_id', 'isPublished', 'createdAt', 'updatedAt', '__v'];
   for (const f of forbidden) {
     if (f in body) {
@@ -423,14 +395,6 @@ export const validateUpdateHomepageSection = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
       data: null,
     });
   }

@@ -46,20 +46,6 @@ const PROTECTED_FIELDS = [
 ];
 
 /**
- * Checks for MongoDB operator keys ($...)
- */
-const hasMongoOperators = (obj) => {
-  if (!obj || typeof obj !== 'object') return false;
-  for (const key of Object.keys(obj)) {
-    if (key.startsWith('$')) return true;
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      if (hasMongoOperators(obj[key])) return true;
-    }
-  }
-  return false;
-};
-
-/**
  * Normalizes string array (e.g. responsibilities, achievements, technologies)
  */
 const normalizeStringArray = (arr, fieldName, maxItems = 20, maxItemLength = 300) => {
@@ -92,14 +78,6 @@ export const validateCreateExperience = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
       data: null,
     });
   }
@@ -281,14 +259,6 @@ export const validateUpdateExperience = (req, res, next) => {
     });
   }
 
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
-      data: null,
-    });
-  }
-
   const bodyKeys = Object.keys(body);
   if (bodyKeys.length === 0) {
     return res.status(400).json({
@@ -455,14 +425,6 @@ export const validateCreateEducation = (req, res, next) => {
     });
   }
 
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
-      data: null,
-    });
-  }
-
   const bodyKeys = Object.keys(body);
   for (const key of bodyKeys) {
     if (PROTECTED_FIELDS.includes(key)) {
@@ -615,14 +577,6 @@ export const validateUpdateEducation = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Request body must be a valid JSON object',
-      data: null,
-    });
-  }
-
-  if (hasMongoOperators(body)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Request body contains invalid operator characters',
       data: null,
     });
   }
