@@ -1,6 +1,30 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../../context/useAuth.js';
+import { getHealthReady } from '../../api/health.js';
 
 export default function AdminDashboardPage() {
+  const { admin } = useAuth();
+  const [dbStatus, setDbStatus] = useState('checking');
+
+  useEffect(() => {
+    let isMounted = true;
+    getHealthReady()
+      .then((res) => {
+        if (isMounted) {
+          setDbStatus(res?.data?.database === 'connected' ? 'connected' : 'degraded');
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setDbStatus('error');
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const modules = [
     { title: 'Profile Information', desc: 'Biographies, titles, location & contact info', tag: 'Phase 4' },
     { title: 'Projects Catalog', desc: 'Projects showcase, slugs, media & reordering', tag: 'Phase 4' },
@@ -15,17 +39,27 @@ export default function AdminDashboardPage() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       <div className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
         <div>
-          <span className="badge badge-warning" style={{ marginBottom: 'var(--space-2)' }}>
-            Phase 1 CMS Shell
-          </span>
-          <h1 style={{ fontSize: 'var(--text-2xl)', marginBottom: 'var(--space-1)' }}>Administrator Dashboard</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
+            <span className="badge badge-success">Session Active</span>
+            <span
+              className={`badge ${
+                dbStatus === 'connected'
+                  ? 'badge-success'
+                  : dbStatus === 'checking'
+                  ? 'badge-info'
+                  : 'badge-danger'
+              }`}
+            >
+              Database: {dbStatus}
+            </span>
+          </div>
+          <h1 style={{ fontSize: 'var(--text-2xl)', marginBottom: 'var(--space-1)' }}>
+            Welcome back, {admin?.name || 'Administrator'}
+          </h1>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>
-            Overview of content management modules. Full authentication guard activates in Phase 2.
+            Signed in as <code>{admin?.email}</code>. Content Management System is authenticated and ready.
           </p>
         </div>
-        <Link to="/" className="btn btn-outline" style={{ fontSize: 'var(--text-sm)' }}>
-          Exit to Public Site
-        </Link>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-4)' }}>

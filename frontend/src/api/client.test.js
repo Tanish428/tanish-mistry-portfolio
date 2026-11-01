@@ -1,15 +1,18 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { apiClient, ApiError } from './client.js';
+import { setCsrfToken, clearCsrfToken } from './csrf.js';
 
 describe('API Client (src/api/client.js)', () => {
   const originalFetch = globalThis.fetch;
 
   beforeEach(() => {
     vi.restoreAllMocks();
+    setCsrfToken('test-client-csrf-token');
   });
 
   afterEach(() => {
     globalThis.fetch = originalFetch;
+    clearCsrfToken();
   });
 
   it('1. Handles successful JSON responses correctly', async () => {
@@ -45,12 +48,12 @@ describe('API Client (src/api/client.js)', () => {
       json: async () => errorPayload,
     });
 
-    await expect(apiClient.post('/api/v1/auth/login', { email: 'bad@test.com' }))
+    await expect(apiClient.post('/api/v1/auth/login', { email: 'bad@test.com' }, { skipCsrf: true }))
       .rejects
       .toThrow(ApiError);
 
     try {
-      await apiClient.post('/api/v1/auth/login', { email: 'bad@test.com' });
+      await apiClient.post('/api/v1/auth/login', { email: 'bad@test.com' }, { skipCsrf: true });
     } catch (err) {
       expect(err).toBeInstanceOf(ApiError);
       expect(err.message).toBe('Invalid email or password');
@@ -92,6 +95,7 @@ describe('API Client (src/api/client.js)', () => {
 
     expect(fetchOptions.headers['Content-Type']).toBeUndefined();
     expect(fetchOptions.headers['content-type']).toBeUndefined();
+    expect(fetchOptions.headers['x-csrf-token']).toBe('test-client-csrf-token');
     expect(fetchOptions.body).toBe(formData);
   });
 

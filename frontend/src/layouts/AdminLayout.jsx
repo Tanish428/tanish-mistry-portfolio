@@ -1,6 +1,22 @@
-import { Link, Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/useAuth.js';
 
 export default function AdminLayout() {
+  const { admin, logout } = useAuth();
+  const navigate = useNavigate();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await logout();
+      navigate('/admin/login', { replace: true });
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <header
@@ -16,6 +32,8 @@ export default function AdminLayout() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 'var(--space-3)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
@@ -27,12 +45,17 @@ export default function AdminLayout() {
                 color: 'var(--color-text-primary)',
               }}
             >
-              Portfolio CMS
+              CMS Dashboard
             </Link>
-            <span className="badge badge-warning">Admin Space</span>
+            <span className="badge badge-success">Authenticated</span>
           </div>
 
-          <nav style={{ display: 'flex', gap: 'var(--space-4)', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
+            {admin && (
+              <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>
+                Signed in as <strong style={{ color: 'var(--color-text-primary)' }}>{admin.name || admin.email}</strong>
+              </span>
+            )}
             <Link
               to="/"
               className="btn btn-outline"
@@ -40,17 +63,21 @@ export default function AdminLayout() {
             >
               View Site
             </Link>
-            <Link
-              to="/admin/login"
+            <button
+              type="button"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="btn btn-outline"
               style={{
-                fontSize: 'var(--text-sm)',
-                fontWeight: 'var(--weight-medium)',
+                fontSize: 'var(--text-xs)',
+                padding: 'var(--space-1) var(--space-3)',
                 color: 'var(--color-danger)',
+                borderColor: 'var(--color-danger-bg)',
               }}
             >
-              Sign In
-            </Link>
-          </nav>
+              {isLoggingOut ? 'Signing out...' : 'Sign Out'}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -71,7 +98,7 @@ export default function AdminLayout() {
         }}
       >
         <div className="container">
-          <p>Protected CMS Administration Area — Phase 1 Skeleton</p>
+          <p>Protected CMS Portal — Authenticated Session Active</p>
         </div>
       </footer>
     </div>

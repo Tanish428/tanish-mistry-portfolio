@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import PublicLayout from '../layouts/PublicLayout.jsx';
 import AdminLayout from '../layouts/AdminLayout.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
 import HomePage from '../pages/public/HomePage.jsx';
 import ProjectDetailPage from '../pages/public/ProjectDetailPage.jsx';
 import NotFoundPage from '../pages/public/NotFoundPage.jsx';
@@ -18,10 +19,12 @@ export default function AppRoutes() {
         <Route path="*" element={<NotFoundPage />} />
       </Route>
 
-      {/* Admin CMS Routes (Protected Shell - Phase 1 Placeholder) */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<AdminDashboardPage />} />
-        <Route path="*" element={<AdminDashboardPage />} />
+      {/* Protected Admin CMS Routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboardPage />} />
+          <Route path="*" element={<AdminDashboardPage />} />
+        </Route>
       </Route>
     </Routes>
   );
